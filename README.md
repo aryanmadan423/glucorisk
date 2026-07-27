@@ -2,10 +2,9 @@
 
 A mobile app that estimates Type 2 diabetes and prediabetes risk using machine learning. 
 
-The model runs on your phone using ONNX Runtime, so you don't need an
-internet connection to get a result and nothing leaves the device. Two of
-the buttons (finding a program, finding care nearby) do open external
-links and need a connection, but the actual risk check doesn't.
+The model runs using ONNX Runtime; no internet connection and nothing leaves the device. 
+Two of the buttons (finding a program, finding care nearby) do open external
+links and need a connection, but the actual risk prediction does not.
 
 ## What it does
 
