@@ -1,6 +1,6 @@
 # Glucorisk
 
-Glucorisk is a mobile app that helps adults review their diabetes and prediabetes risk using a short health questionnaire. I built it for the Congressional App Challenge.
+Glucorisk is a mobile app that helps people review their diabetes and prediabetes risk using a short health questionnaire. I built it for the Congressional App Challenge.
 
 The goal is to give people a simple way to check their risk factors and find useful prevention resources. The model runs on the phone, so the questionnaire and result work without an internet connection once the app is installed.
 

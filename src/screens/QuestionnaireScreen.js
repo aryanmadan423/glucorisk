@@ -64,7 +64,7 @@ export default function QuestionnaireScreen({ navigation }) {
     if (loading) return;
     if (!answered) {
       Alert.alert("Check your answer", question.id === "AGE_YEARS"
-        ? "Enter a whole-number age from 18 to 99. This app is intended for adults."
+        ? "Enter a whole-number age from 18 to 99."
         : (isNumeric ? "Enter a valid answer. Height and weight must be greater than zero." : "Choose an answer to continue."));
       return;
     }

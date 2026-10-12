@@ -6,7 +6,7 @@ export default function AboutScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.page}>
       <Text style={styles.heading}>About Glucorisk</Text>
       <Text style={styles.body}>
-        Glucorisk helps adults check their diabetes and prediabetes risk factors and find prevention resources.
+        Glucorisk helps people check their diabetes and prediabetes risk factors and find prevention resources.
       </Text>
       <Text style={styles.heading}>How it works</Text>
       <Text style={styles.body}>
@@ -20,7 +20,7 @@ export default function AboutScreen({ navigation }) {
       </TouchableOpacity>
       <Text style={styles.heading}>About the score</Text>
       <Text style={styles.body}>
-        The model learned from self-reported diabetes and prediabetes. It does not separate diabetes types or predict future diagnoses. Use the result as a starting point for a conversation with your doctor.
+        The model was trained on adults aged 18 and older using self-reported diabetes and prediabetes. It does not separate diabetes types or predict future diagnoses. Use the result as a starting point for a conversation with your doctor.
       </Text>
       <Text style={styles.heading}>Privacy</Text>
       <Text style={styles.body}>
