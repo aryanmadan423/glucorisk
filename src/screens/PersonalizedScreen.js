@@ -16,7 +16,7 @@ export default function PersonalizedScreen({ route }) {
 
       {advice.length === 0 ? (
         <Text style={styles.body}>
-          None of the factors this app looks at showed up in your answers.
+          Your answers did not match any of the recommendation topics.
         </Text>
       ) : (
         advice.map((item) => (

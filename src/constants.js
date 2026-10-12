@@ -1,4 +1,4 @@
-// Probability calibration
+// Calibration values fitted on the validation set.
 export const CALIBRATION_A = -4.842513;
 export const CALIBRATION_B = 3.995174;
 
@@ -6,7 +6,7 @@ export function calibrateProbability(rawProbability) {
   return 1 / (1 + Math.exp(CALIBRATION_A * rawProbability + CALIBRATION_B));
 }
 
-// Risk threshold
+// Cutoff selected on the validation set for at least 30% PPV.
 export const RECOMMENDED_THRESHOLD = 0.115;
 
 export const FEATURE_LABELS = {
@@ -24,7 +24,7 @@ export const FEATURE_LABELS = {
   heart_attack_history: "heart attack history",
 };
 
-// Numeric input validation shared by the questionnaire and feature builder.
+// Reject blank or invalid numbers before building the model input.
 export function isValidNumericAnswer(id, value) {
   if (value === undefined || value === null || String(value).trim() === "") return false;
   const number = Number(value);
@@ -42,7 +42,7 @@ export function cmToFeetInches(cm) {
   return { feet: Math.floor(totalTenths / 120), inches: (totalTenths % 120) / 10 };
 }
 
-// BRFSS age mapping
+// Use the same five-year age groups as BRFSS; the final group is 80+.
 export function ageToAgeGroup(age) {
   const bounds = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
   for (let i = 0; i < bounds.length; i++) {
@@ -56,7 +56,7 @@ export function computeBmiTimes100(heightCm, weightKg) {
   return Math.round((weightKg / (heightM * heightM)) * 100);
 }
 
-// Convert to centimeters
+// Convert feet and inches to centimeters, rounded to one decimal place.
 export function feetInchesToCm(feet, inches) {
   const totalInches = Number(feet) * 12 + Number(inches);
   return Math.round(totalInches * 2.54 * 10) / 10;
@@ -71,14 +71,14 @@ export function getBmiValue(answers) {
   return Number(answers.WEIGHT_KG) / (heightM * heightM);
 }
 
-// BMI category
+// BMI ranges used to choose the weight-related recommendation.
 export function getBmiCategory(bmi) {
   if (bmi >= 30) return "obese";
   if (bmi >= 25) return "overweight";
   return "healthy";
 }
 
-// Question flow
+// Display questions in this order. Height and weight become one BMI input.
 export const QUESTIONS = [
   {
     id: "GENHLTH",
@@ -111,7 +111,7 @@ export const QUESTIONS = [
   { id: "heart_attack_history", prompt: "Have you ever been told you had a heart attack?", type: "yesno" },
 ];
 
-// Feature vector
+// Keep this order and coding identical to the training notebook.
 export function buildFeatureVector(answers) {
   for (const id of ["AGE_YEARS", "HEIGHT_CM", "WEIGHT_KG"]) {
     if (!isValidNumericAnswer(id, answers[id])) throw new Error(`Invalid ${id}`);
@@ -132,20 +132,19 @@ export function buildFeatureVector(answers) {
   ];
 }
 
-// Personalizable features
+// Factors with a matching recommendation.
 const PERSONALIZABLE_FEATURES = [
   "GENHLTH", "_AGEG5YR", "_BMI5", "EXERANY2",
   "high_bp", "high_chol", "SMOKE100", "diff_walk",
   "stroke_history", "angina_chd_history", "heart_attack_history",
 ];
 
-// Personalized factors
+// Match advice to answers rather than calculating SHAP on the phone.
 export function getPersonalFactors(answers) {
   const bmi = getBmiValue(answers);
 
   const elevated = {
     GENHLTH: Number(answers.GENHLTH) >= 4,
-    // Screening age
     _AGEG5YR: Number(answers.AGE_YEARS) >= 35,
     _BMI5: bmi >= 25,
     EXERANY2: answers.EXERANY2 === false,
@@ -161,7 +160,7 @@ export function getPersonalFactors(answers) {
   return PERSONALIZABLE_FEATURES.filter((feature) => elevated[feature]);
 }
 
-// Diagnosed condition message
+// Advice for a reported cardiovascular condition.
 const SEE_YOUR_CARE_TEAM =
   "If you've already been diagnosed with this, keep following your doctor's advice and mention this result at your next visit.";
 
@@ -199,10 +198,10 @@ const ADVICE_CONTENT = {
   },
   SMOKE100: {
     bullets: [
-      "Current smokers are 30 to 40% more likely to develop type 2 diabetes than non-smokers. A history of smoking does not mean you currently smoke.",
+      "If you currently smoke, Smokefree.gov has resources to help you quit.",
       "Free help quitting is available anytime.",
     ],
-    source: { label: "Smokefree.gov (U.S. government quit-smoking resource)", url: "https://smokefree.gov" },
+    source: { label: "Smokefree.gov", url: "https://smokefree.gov" },
   },
   diff_walk: {
     bullets: [
@@ -213,13 +212,13 @@ const ADVICE_CONTENT = {
   },
   GENHLTH: {
     bullets: [
-      "Poor general health can be linked with a higher diabetes risk. It's worth mentioning at your next checkup.",
+      "Mention your general health concerns at your next checkup.",
     ],
     source: null,
   },
   _AGEG5YR: {
     bullets: [
-      "The USPSTF recommends screening adults aged 35 to 70 who have overweight or obesity. Ask your clinician which screening guidance applies to you.",
+      "The USPSTF recommends screening adults aged 35 to 70 who have overweight or obesity. Ask your doctor whether you should be screened.",
     ],
     source: { label: "U.S. Preventive Services Task Force", url: "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/screening-for-prediabetes-and-type-2-diabetes" },
   },

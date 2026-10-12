@@ -8,7 +8,7 @@ export default function ResultsScreen({ route, navigation }) {
   const isHigh = probability >= RECOMMENDED_THRESHOLD;
   const color = isHigh ? colors.high : colors.low;
 
-  // Top personalized factors
+  // Include up to three matching factors in the shared result.
   const personalFactors = getPersonalFactors(answers).slice(0, 3);
 
   async function shareResult() {
@@ -29,12 +29,12 @@ export default function ResultsScreen({ route, navigation }) {
       <Text style={[styles.percent, { color }]}>{percent}%</Text>
       <Text style={styles.body}>
         {isHigh
-          ? "Your score was high enough that the app recommends talking to your doctor about diabetes testing."
-          : "Your score is below the app's elevated-score threshold. It does not rule out diabetes or override screening recommended by your clinician."}
+          ? "Your score is elevated. Talk to your doctor about diabetes testing."
+          : "Your score is below the app's cutoff. A lower score does not rule out diabetes; ask your doctor about screening if you have concerns."}
       </Text>
 
       <Text style={styles.body}>
-        This estimate comes from patterns in self-reported diabetes and prediabetes in survey data. It is not a diagnosis or a prediction of future disease.
+        This is a screening estimate, not a diagnosis.
       </Text>
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Resources", { answers })}>

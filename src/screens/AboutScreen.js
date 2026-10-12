@@ -4,27 +4,28 @@ import { colors, space } from "../theme";
 export default function AboutScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.page}>
-      <Text style={styles.heading}>The model</Text>
+      <Text style={styles.heading}>About Glucorisk</Text>
       <Text style={styles.body}>
-        The model uses 12 health factors like age, sex, and BMI to make predictions. It was trained using CDC survey data from more than 250,000 adults in the United States, looking for patterns in your answers that are linked to diabetes risk.
+        Glucorisk helps adults check their diabetes and prediabetes risk factors and find prevention resources.
       </Text>
-      <Text style={styles.heading}>Evaluation</Text>
+      <Text style={styles.heading}>How it works</Text>
       <Text style={styles.body}>
-        On a held-out set of 32,479 CDC survey respondents, the model achieved an AUC of 0.796, a positive predictive value of 30.3%, and sensitivity of 85.1% for self-reported diabetes or prediabetes.
+        The app uses 12 health factors, including age, BMI, and medical history. Its gradient-boosting model was trained on 259,829 responses from the 2023 CDC health survey.
       </Text>
       <Text style={styles.body}>
-        Published ADA risk-score studies report approximately 10% positive predictive value for undiagnosed diabetes. These studies use different populations and outcomes, so the numbers do not establish that Glucorisk outperforms the ADA tool.
+        On the test set, the model had an AUC of 0.796, a PPV of 30.3%, and sensitivity of 85.1%.
       </Text>
       <TouchableOpacity onPress={() => navigation.navigate("MetricComparison")}>
-        <Text style={styles.link}>Performance Comparison</Text>
+        <Text style={styles.link}>Performance comparison</Text>
       </TouchableOpacity>
-      <Text style={styles.heading}>Limitations</Text>
+      <Text style={styles.heading}>About the score</Text>
       <Text style={styles.body}>
-        This is an adult screening prototype. Its training label combines self-reported diabetes and prediabetes, does not distinguish type 1 from type 2, and does not measure future disease onset or confirm undiagnosed disease. It has not been clinically validated.
+        The model learned from self-reported diabetes and prediabetes. It does not separate diabetes types or predict future diagnoses. Use the result as a starting point for a conversation with your doctor.
       </Text>
-
       <Text style={styles.heading}>Privacy</Text>
-      <Text style={styles.body}>Risk calculations stay on your phone. No prediction server receives your answers. Sharing a result is optional and sends the text to an app you choose; resource links open external services.</Text>
+      <Text style={styles.body}>
+        The model runs on your phone, and your answers are not uploaded. Sharing a result is optional. Resource links open external websites.
+      </Text>
     </ScrollView>
   );
 }

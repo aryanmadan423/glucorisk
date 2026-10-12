@@ -2,7 +2,6 @@ import { Text, StyleSheet, TouchableOpacity, ScrollView, Linking } from "react-n
 import { colors, space } from "../theme";
 
 const FIND_PROGRAM_URL = "https://diabetespath2prevention.cdc.gov/findaprogram";
-const VCDPE_URL = "https://med.virginia.edu/vcdpe/";
 const NEARBY_CARE_URL = "https://www.google.com/maps/search/?api=1&query=diabetes+prevention+program+near+me";
 
 export default function ResourcesScreen() {
@@ -10,12 +9,12 @@ export default function ResourcesScreen() {
     <ScrollView contentContainerStyle={styles.page}>
       <Text style={styles.heading}>General ways to lower your risk</Text>
       <Text style={styles.body}>
-        Research from the CDC's Diabetes Prevention Program found that losing 5-7% of your body weight and getting at least 150 minutes of activity a week cut the risk of developing type 2 diabetes by 58%.
+        Prevention programs offer support with eating habits, physical activity, and weight management.
       </Text>
 
-      <Text style={[styles.heading, { marginTop: space.l }]}>Find a free program</Text>
+      <Text style={[styles.heading, { marginTop: space.l }]}>Find a prevention program</Text>
       <Text style={styles.body}>
-        The National Diabetes Prevention Program runs free or low-cost lifestyle programs across the country, in person or online. Search by ZIP code to find one near you.
+        Search by ZIP code for a CDC-recognized program near you. Some programs also meet online.
       </Text>
       <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(FIND_PROGRAM_URL)}>
         <Text style={styles.buttonText}>Find a Program</Text>
@@ -26,7 +25,7 @@ export default function ResourcesScreen() {
       <TouchableOpacity style={styles.button} onPress={() => Linking.openURL(NEARBY_CARE_URL)}>
         <Text style={styles.buttonText}>Open in Maps</Text>
       </TouchableOpacity>
-      <Text style={styles.note}>Opens your Maps app. Requires an internet connection.</Text>
+      <Text style={styles.note}>Opens a map search. Requires an internet connection.</Text>
     </ScrollView>
   );
 }

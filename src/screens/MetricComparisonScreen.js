@@ -3,18 +3,18 @@ import { colors, space } from "../theme";
 
 const SOURCE_URL = "https://mdcalc.scholasticahq.com/article/159088-updated-review-of-the-american-diabetes-association-ada-risk-calculator";
 
-// Comparison numbers
+// Glucorisk test results and the ADA figures from the linked review.
 const ROWS = [
     { metric: "AUC", glucorisk: "0.796", ada: "0.78-0.83" },
-    { metric: "Precision (PPV)", glucorisk: "0.303", ada: "0.10" },
-    { metric: "Recall (Sensitivity)", glucorisk: "0.851", ada: "0.72-0.79" },
+    { metric: "Precision (PPV)", glucorisk: "30.3%", ada: "~10%" },
+    { metric: "Recall (Sensitivity)", glucorisk: "85.1%", ada: "72-79%" },
 ];
 
 export default function MetricComparisonScreen() {
     return (
         <ScrollView contentContainerStyle={styles.page}>
             <Text style={styles.body}>
-                Glucorisk test-set results alongside published ADA risk-score results. These are separate studies, not a head-to-head comparison.
+                Results from Glucorisk's test set and published ADA risk-score results.
             </Text>
 
             <View style={styles.table}>
@@ -34,30 +34,25 @@ export default function MetricComparisonScreen() {
 
             <Text style={styles.heading}>AUC</Text>
             <Text style={styles.body}>
-                Measures how well the model ranks people from lower to higher risk. 0.5 is a coin flip, 1.0 is perfect.
+                Measures how well a model ranks positive cases above negative cases. An AUC of 0.5 is chance-level ranking; 1.0 is perfect ranking.
             </Text>
 
             <Text style={styles.heading}>Precision (PPV)</Text>
             <Text style={styles.body}>
-                Of respondents flagged by Glucorisk, the share reporting diabetes or prediabetes. The ADA studies instead measured undiagnosed diabetes.
+                For Glucorisk, the percentage of flagged respondents who reported diabetes or prediabetes.
             </Text>
 
             <Text style={styles.heading}>Recall (Sensitivity)</Text>
             <Text style={styles.body}>
-                Of respondents reporting diabetes or prediabetes, the share flagged by Glucorisk.
+                The percentage of respondents reporting diabetes or prediabetes that Glucorisk flagged.
             </Text>
 
             <Text style={styles.body}>
-                Glucorisk was evaluated on a random holdout from the same 2023 survey dataset used for training. PPV depends on outcome prevalence and the decision threshold. A 30.3% versus 10% numerical comparison does not demonstrate threefold better screening performance.
+                The ADA figures measure undiagnosed diabetes in different populations. Glucorisk uses self-reported diabetes or prediabetes. This comparison does not establish formal superiority over the ADA tool.
             </Text>
-            <Text style={styles.source}>Glucorisk source: model-training/diabetes_risk_prediction_notebook.ipynb, test-set output.</Text>
-            <TouchableOpacity onPress={() => Linking.openURL("https://pubmed.ncbi.nlm.nih.gov/19949143/")}>
-                <Text style={styles.sourceLink}>Original ADA risk-score study: Bang et al., 2009</Text>
-            </TouchableOpacity>
-            <Text style={styles.source}>ADA numbers from a review published in MDCalc's journal.</Text>
-            <Text style={styles.source}>Source:</Text>
+            <Text style={styles.source}>Glucorisk results: training notebook in the GitHub repository.</Text>
             <TouchableOpacity onPress={() => Linking.openURL(SOURCE_URL)}>
-                <Text style={styles.sourceLink}>{SOURCE_URL}</Text>
+                <Text style={styles.sourceLink}>ADA figures: MDCalc review</Text>
             </TouchableOpacity>
         </ScrollView>
     );

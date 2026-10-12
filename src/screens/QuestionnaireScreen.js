@@ -9,7 +9,7 @@ export default function QuestionnaireScreen({ navigation }) {
   const [answers, setAnswers] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // Unit state
+  // Keep the displayed height and weight in the selected units.
   const [heightUnit, setHeightUnit] = useState("ft");
   const [weightUnit, setWeightUnit] = useState("lb");
   const [feet, setFeet] = useState("");
@@ -74,7 +74,6 @@ export default function QuestionnaireScreen({ navigation }) {
     }
     setLoading(true);
     try {
-      // Model prediction
       const probability = await predictRisk(buildFeatureVector(answers));
       navigation.replace("Results", { probability, answers });
     } catch (err) {

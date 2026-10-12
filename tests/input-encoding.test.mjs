@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 const source = await readFile(new URL('../src/constants.js', import.meta.url), 'utf8');
 const c = await import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
 
-test('empty, nonfinite, zero, and pediatric inputs cannot reach inference', () => {
+test('reject invalid ages, heights, and weights', () => {
   for (const value of ['', ' ', undefined, null, 'abc', Infinity, 0, -1]) {
     assert.equal(c.isValidNumericAnswer('HEIGHT_CM', value), false);
     assert.equal(c.isValidNumericAnswer('WEIGHT_KG', value), false);
@@ -14,7 +14,7 @@ test('empty, nonfinite, zero, and pediatric inputs cannot reach inference', () =
   assert.throws(() => c.buildFeatureVector({AGE_YEARS: 45, HEIGHT_CM: 0, WEIGHT_KG: 70}));
 });
 
-test('imperial and metric representations preserve height and weight', () => {
+test('unit conversions keep the same measurements', () => {
   const cm = c.feetInchesToCm(5, 10);
   assert.equal(cm, 177.8);
   const imperial = c.cmToFeetInches(cm);
@@ -23,7 +23,7 @@ test('imperial and metric representations preserve height and weight', () => {
   assert.ok(c.cmToFeetInches(182.87).inches < 12);
 });
 
-test('feature order and categorical encoding match the ONNX training inputs', () => {
+test('feature coding matches the training notebook', () => {
   assert.deepEqual(c.buildFeatureVector({GENHLTH: 3, AGE_YEARS: 45, SEXVAR: 1,
     HEIGHT_CM: 180, WEIGHT_KG: 81, EXERANY2: false, high_bp: true,
     high_chol: false, SMOKE100: false, diff_walk: true,
@@ -35,7 +35,7 @@ test('feature order and categorical encoding match the ONNX training inputs', ()
   assert.equal(c.ageToAgeGroup(80), 13);
 });
 
-test('sigmoid calibration agrees with saved model smoke-check results', () => {
+test('calibration matches the saved model checks', () => {
   assert.ok(Math.abs(c.calibrateProbability(0.03680086135864258) - 0.02152110049) < 1e-8);
   assert.ok(Math.abs(c.calibrateProbability(0.9118542671203613) - 0.60360100927) < 1e-8);
   assert.equal(c.RECOMMENDED_THRESHOLD, 0.115);

@@ -10,7 +10,7 @@ export default function WelcomeScreen({ navigation }) {
       </Text>
 
       <Text style={styles.body}>
-        For adults. The estimate uses only your answers and runs on your phone. It does not diagnose diabetes or replace medical testing.
+        For adults. Your answers stay on your phone, and the screening check works offline.
       </Text>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Questionnaire")}>
         <Text style={styles.buttonText}>Start</Text>
