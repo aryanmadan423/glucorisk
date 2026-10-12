@@ -13,7 +13,7 @@ export default function ResultsScreen({ route, navigation }) {
 
   async function shareResult() {
     const factorsList = personalFactors.map((f) => FEATURE_LABELS[f]).join(", ");
-    const message = `Glucorisk result: ${percent}% estimated risk of type 2 diabetes or prediabetes.` +
+    const message = `Glucorisk result: ${percent}% diabetes/prediabetes screening estimate.` +
       (factorsList ? ` Factors: ${factorsList}.` : "") +
       ` This is a screening estimate, not a diagnosis.`;
     try {
@@ -30,7 +30,11 @@ export default function ResultsScreen({ route, navigation }) {
       <Text style={styles.body}>
         {isHigh
           ? "Your score was high enough that the app recommends talking to your doctor about diabetes testing."
-          : "Your score was not high enough for the app to recommend diabetes testing. However, this doesn't completely rule out the possibility."}
+          : "Your score is below the app's elevated-score threshold. It does not rule out diabetes or override screening recommended by your clinician."}
+      </Text>
+
+      <Text style={styles.body}>
+        This estimate comes from patterns in self-reported diabetes and prediabetes in survey data. It is not a diagnosis or a prediction of future disease.
       </Text>
 
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Resources", { answers })}>

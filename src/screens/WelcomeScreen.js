@@ -6,11 +6,11 @@ export default function WelcomeScreen({ navigation }) {
     <ScrollView contentContainerStyle={styles.page}>
       <Text style={styles.title}>Glucorisk</Text>
       <Text style={styles.subtitle}>
-        Answer a few questions to estimate your risk of type 2 diabetes.
+        Answer a few questions to get a diabetes and prediabetes screening estimate.
       </Text>
 
       <Text style={styles.body}>
-        No blood test or appointment is needed. The estimate is based only on your answers.
+        For adults. The estimate uses only your answers and runs on your phone. It does not diagnose diabetes or replace medical testing.
       </Text>
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Questionnaire")}>
         <Text style={styles.buttonText}>Start</Text>

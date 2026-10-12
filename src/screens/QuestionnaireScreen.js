@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ActivityIndicator, Alert } from "react-native";
 import { colors, space } from "../theme";
-import { QUESTIONS, buildFeatureVector, feetInchesToCm, lbsToKg } from "../constants";
+import { QUESTIONS, buildFeatureVector, feetInchesToCm, lbsToKg, kgToLbs, cmToFeetInches, isValidNumericAnswer } from "../constants";
 import { predictRisk } from "../lib/runModel";
 
 export default function QuestionnaireScreen({ navigation }) {
@@ -21,15 +21,51 @@ export default function QuestionnaireScreen({ navigation }) {
   const isLast = step === QUESTIONS.length - 1;
   const answer = answers[question.id];
   const isNumeric = ["number", "height", "weight"].includes(question.type);
-  const answered = isNumeric ? answer !== undefined && !isNaN(Number(answer)) : answer !== undefined;
+  const answered = isNumeric ? isValidNumericAnswer(question.id, answer) : answer !== undefined;
 
   function setAnswer(value) {
     setAnswers({ ...answers, [question.id]: value });
   }
 
+  function selectHeightUnit(unit) {
+    const cm = answers.HEIGHT_CM;
+    if (isValidNumericAnswer("HEIGHT_CM", cm)) {
+      if (unit === "cm") setHeightCmText(String(cm));
+      else {
+        const converted = cmToFeetInches(cm);
+        setFeet(String(converted.feet));
+        setInches(String(converted.inches));
+      }
+    } else {
+      setFeet(""); setInches(""); setHeightCmText("");
+    }
+    setHeightUnit(unit);
+  }
+
+  function selectWeightUnit(unit) {
+    const kg = answers.WEIGHT_KG;
+    setWeightText(isValidNumericAnswer("WEIGHT_KG", kg)
+      ? String(unit === "lb" ? kgToLbs(kg) : kg) : "");
+    setWeightUnit(unit);
+  }
+
+  function updateImperialHeight(nextFeet, nextInches) {
+    const f = Number(nextFeet || 0);
+    const i = Number(nextInches || 0);
+    if ((!nextFeet.trim() && !nextInches.trim()) || !Number.isFinite(f) ||
+        !Number.isFinite(i) || f < 0 || i < 0 || i >= 12) {
+      setAnswer(undefined);
+      return;
+    }
+    setAnswer(feetInchesToCm(f, i));
+  }
+
   async function next() {
+    if (loading) return;
     if (!answered) {
-      Alert.alert("Answer to continue.");
+      Alert.alert("Check your answer", question.id === "AGE_YEARS"
+        ? "Enter a whole-number age from 18 to 99. This app is intended for adults."
+        : (isNumeric ? "Enter a valid answer. Height and weight must be greater than zero." : "Choose an answer to continue."));
       return;
     }
     if (!isLast) {
@@ -90,10 +126,10 @@ export default function QuestionnaireScreen({ navigation }) {
       {question.type === "height" && (
         <View>
           <View style={styles.unitRow}>
-            <TouchableOpacity style={[styles.unitButton, heightUnit === "ft" && styles.unitButtonSelected]} onPress={() => setHeightUnit("ft")}>
+            <TouchableOpacity style={[styles.unitButton, heightUnit === "ft" && styles.unitButtonSelected]} onPress={() => selectHeightUnit("ft")}>
               <Text style={[styles.unitText, heightUnit === "ft" && styles.unitTextSelected]}>ft / in</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.unitButton, heightUnit === "cm" && styles.unitButtonSelected]} onPress={() => setHeightUnit("cm")}>
+            <TouchableOpacity style={[styles.unitButton, heightUnit === "cm" && styles.unitButtonSelected]} onPress={() => selectHeightUnit("cm")}>
               <Text style={[styles.unitText, heightUnit === "cm" && styles.unitTextSelected]}>cm</Text>
             </TouchableOpacity>
           </View>
@@ -105,14 +141,14 @@ export default function QuestionnaireScreen({ navigation }) {
                 keyboardType="numeric"
                 placeholder="Feet"
                 value={feet}
-                onChangeText={(text) => { setFeet(text); setAnswer(feetInchesToCm(text || 0, inches || 0)); }}
+                onChangeText={(text) => { setFeet(text); updateImperialHeight(text, inches); }}
               />
               <TextInput
                 style={[styles.input, styles.halfInput]}
                 keyboardType="numeric"
                 placeholder="Inches"
                 value={inches}
-                onChangeText={(text) => { setInches(text); setAnswer(feetInchesToCm(feet || 0, text || 0)); }}
+                onChangeText={(text) => { setInches(text); updateImperialHeight(feet, text); }}
               />
             </View>
           ) : (
@@ -130,10 +166,10 @@ export default function QuestionnaireScreen({ navigation }) {
       {question.type === "weight" && (
         <View>
           <View style={styles.unitRow}>
-            <TouchableOpacity style={[styles.unitButton, weightUnit === "lb" && styles.unitButtonSelected]} onPress={() => setWeightUnit("lb")}>
+            <TouchableOpacity style={[styles.unitButton, weightUnit === "lb" && styles.unitButtonSelected]} onPress={() => selectWeightUnit("lb")}>
               <Text style={[styles.unitText, weightUnit === "lb" && styles.unitTextSelected]}>lb</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.unitButton, weightUnit === "kg" && styles.unitButtonSelected]} onPress={() => setWeightUnit("kg")}>
+            <TouchableOpacity style={[styles.unitButton, weightUnit === "kg" && styles.unitButtonSelected]} onPress={() => selectWeightUnit("kg")}>
               <Text style={[styles.unitText, weightUnit === "kg" && styles.unitTextSelected]}>kg</Text>
             </TouchableOpacity>
           </View>
@@ -144,7 +180,7 @@ export default function QuestionnaireScreen({ navigation }) {
             value={weightText}
             onChangeText={(text) => {
               setWeightText(text);
-              setAnswer(weightUnit === "lb" ? lbsToKg(text || 0) : text);
+              setAnswer(text.trim() === "" ? undefined : (weightUnit === "lb" ? lbsToKg(text) : text));
             }}
           />
         </View>

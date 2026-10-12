@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.yourname.glucorisk"
+      "bundleIdentifier": "com.amadan.glucorisk"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,6 +21,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }

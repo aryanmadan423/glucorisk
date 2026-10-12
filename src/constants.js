@@ -24,6 +24,24 @@ export const FEATURE_LABELS = {
   heart_attack_history: "heart attack history",
 };
 
+// Numeric input validation shared by the questionnaire and feature builder.
+export function isValidNumericAnswer(id, value) {
+  if (value === undefined || value === null || String(value).trim() === "") return false;
+  const number = Number(value);
+  if (!Number.isFinite(number)) return false;
+  if (id === "AGE_YEARS") return Number.isInteger(number) && number >= 18 && number <= 99;
+  return number > 0;
+}
+
+export function kgToLbs(kg) {
+  return Math.round(Number(kg) / 0.453592 * 10) / 10;
+}
+
+export function cmToFeetInches(cm) {
+  const totalTenths = Math.round(Number(cm) / 2.54 * 10);
+  return { feet: Math.floor(totalTenths / 120), inches: (totalTenths % 120) / 10 };
+}
+
 // BRFSS age mapping
 export function ageToAgeGroup(age) {
   const bounds = [25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80];
@@ -84,7 +102,7 @@ export const QUESTIONS = [
   { id: "HEIGHT_CM", prompt: "What is your height?", type: "height" },
   { id: "WEIGHT_KG", prompt: "What is your weight?", type: "weight" },
   { id: "EXERANY2", prompt: "Have you been physically active in the past 30 days?", type: "yesno" },
-  { id: "high_bp", prompt: "Have you ever been told you have high blood pressure?", type: "yesno" },
+  { id: "high_bp", prompt: "Have you ever been told you have high or borderline high blood pressure?", type: "yesno" },
   { id: "high_chol", prompt: "Have you ever been told your cholesterol is high?", type: "yesno" },
   { id: "SMOKE100", prompt: "Have you smoked at least 100 cigarettes in your life?", type: "yesno" },
   { id: "diff_walk", prompt: "Do you have serious difficulty walking or climbing stairs?", type: "yesno" },
@@ -95,6 +113,9 @@ export const QUESTIONS = [
 
 // Feature vector
 export function buildFeatureVector(answers) {
+  for (const id of ["AGE_YEARS", "HEIGHT_CM", "WEIGHT_KG"]) {
+    if (!isValidNumericAnswer(id, answers[id])) throw new Error(`Invalid ${id}`);
+  }
   return [
     answers.GENHLTH,
     ageToAgeGroup(Number(answers.AGE_YEARS)),
@@ -178,7 +199,7 @@ const ADVICE_CONTENT = {
   },
   SMOKE100: {
     bullets: [
-      "Smokers are 30 to 40% more likely to develop type 2 diabetes than non-smokers.",
+      "Current smokers are 30 to 40% more likely to develop type 2 diabetes than non-smokers. A history of smoking does not mean you currently smoke.",
       "Free help quitting is available anytime.",
     ],
     source: { label: "Smokefree.gov (U.S. government quit-smoking resource)", url: "https://smokefree.gov" },
@@ -198,7 +219,7 @@ const ADVICE_CONTENT = {
   },
   _AGEG5YR: {
     bullets: [
-      "Age is not something you can change. National guidelines recommend starting diabetes screening at age 35.",
+      "The USPSTF recommends screening adults aged 35 to 70 who have overweight or obesity. Ask your clinician which screening guidance applies to you.",
     ],
     source: { label: "U.S. Preventive Services Task Force", url: "https://www.uspreventiveservicestaskforce.org/uspstf/recommendation/screening-for-prediabetes-and-type-2-diabetes" },
   },
