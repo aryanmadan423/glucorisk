@@ -6,7 +6,9 @@ The goal is to give people a simple way to check their risk factors and find use
 
 ## Using the app
 
-Answer 13 questions about your health, age, height, weight, activity, and medical history. The app calculates a screening score and provides recommendations based on your answers. You can also share your result or open links to prevention programs.
+Answer 13 questions about your health, age, height, weight, activity, and medical history. The main result says "Diabetes testing recommended" or "Below screening cutoff." A smaller calibrated risk score appears below it, along with its ratio to the cutoff. The app also provides recommendations based on your answers. You can also share your result or open links to prevention programs.
+
+A value of 1.3× means the score is 30% above the screening cutoff, not 30% greater risk than another person. The cutoff is kept low to help miss fewer possible cases, so a low percentage can still lead to a testing recommendation.
 
 Height and weight are combined into BMI, giving the model 12 inputs. The recommendations use rules based on your answers; they are separate from the model's prediction.
 
