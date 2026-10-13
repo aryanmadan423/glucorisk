@@ -28,7 +28,7 @@ These results come from the test-set output in the training notebook. Metrics fr
 | Positive predictive value (PPV) | 23.7% | About 10% |
 | Sensitivity | 95.8% | 72-79% |
 
-The ADA figures are from the [review linked in the app](https://mdcalc.scholasticahq.com/article/159088-updated-review-of-the-american-diabetes-association-ada-risk-calculator). They measure undiagnosed diabetes in different populations, while Glucorisk uses self-reported diabetes or prediabetes. This comparison places Glucorisk’s test results in context alongside an established screening tool, but does not establish superiority over the ADA tool.
+The ADA figures are from this [review in MDCalc Journal](https://mdcalc.scholasticahq.com/article/159088-updated-review-of-the-american-diabetes-association-ada-risk-calculator). They measure undiagnosed diabetes in different populations, while Glucorisk uses self-reported diabetes or prediabetes. This comparison places Glucorisk’s test results in context alongside an established screening tool, but does not establish superiority over the ADA tool.
 
 ## Privacy
 
