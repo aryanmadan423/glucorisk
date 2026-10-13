@@ -56,6 +56,6 @@ Run the input and encoding tests with `npm test`.
 - `src/constants.js`: questions, feature encoding, calibration, and recommendation rules.
 - `src/lib/runModel.js`: loads the model and runs predictions.
 - `assets/model/diabetes_risk_model.onnx`: the trained scaler and classifier.
-- `model-training/diabetes_risk_prediction_notebook.ipynb`: training, evaluation, SHAP analysis, and model export.
+- `model-training/diabetes_risk_prediction_notebook.ipynb`: training, evaluation, and model export.
 
 To run the notebook in Colab, download and extract `LLCP2023.XPT` from CDC and update `xpt_path` to its location in Google Drive. The raw dataset is not included. If the model is retrained, its ONNX file, calibration constants, cutoff, and reported results need to be updated together.

@@ -139,7 +139,7 @@ const PERSONALIZABLE_FEATURES = [
   "stroke_history", "angina_chd_history", "heart_attack_history",
 ];
 
-// Match advice to answers rather than calculating SHAP on the phone.
+// Select recommendations based on questionnaire answers.
 export function getPersonalFactors(answers) {
   const bmi = getBmiValue(answers);
 
