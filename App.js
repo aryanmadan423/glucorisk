@@ -6,7 +6,6 @@ import ResultsScreen from "./src/screens/ResultsScreen";
 import ResourcesScreen from "./src/screens/ResourcesScreen";
 import PersonalizedScreen from "./src/screens/PersonalizedScreen";
 import AboutScreen from "./src/screens/AboutScreen";
-import MetricComparisonScreen from "./src/screens/MetricComparisonScreen";
 import { colors } from "./src/theme";
 
 const Stack = createNativeStackNavigator();
@@ -21,7 +20,6 @@ export default function App() {
         <Stack.Screen name="Resources" component={ResourcesScreen} options={{ title: "Resources" }} />
         <Stack.Screen name="Personalized" component={PersonalizedScreen} options={{ title: "Recommendations" }} />
         <Stack.Screen name="About" component={AboutScreen} options={{ title: "About" }} />
-        <Stack.Screen name="MetricComparison" component={MetricComparisonScreen} options={{ title: "Performance Comparison" }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
