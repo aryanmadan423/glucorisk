@@ -13,7 +13,7 @@ export default function AboutScreen({ navigation }) {
         The app uses 12 health factors, including age, BMI, and medical history. Its gradient-boosting model was trained on 259,829 responses from the 2023 CDC health survey.
       </Text>
       <Text style={styles.body}>
-        On the test set, the model had an AUC of 0.796, a PPV of 30.3%, and sensitivity of 85.1%.
+        On the test set, the model had an AUC of 0.796, a PPV of 23.7%, and sensitivity of 95.8%.
       </Text>
       <TouchableOpacity onPress={() => navigation.navigate("MetricComparison")}>
         <Text style={styles.link}>Performance comparison</Text>

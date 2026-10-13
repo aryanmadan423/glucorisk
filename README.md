@@ -14,7 +14,7 @@ Height and weight are combined into BMI, giving the model 12 inputs. The recomme
 
 I trained the model in Python using the [2023 CDC BRFSS survey](https://www.cdc.gov/brfss/annual_data/annual_2023.html). After cleaning, there were 324,787 responses. I split them into 259,829 for training, 32,479 for validation, and 32,479 for testing, using seed 42.
 
-I compared ten classifiers and selected gradient boosting because it had the highest validation AUC. I then calibrated its probabilities and chose the screening cutoff using the validation set. The final cutoff is 11.5%.
+I compared ten classifiers and selected gradient boosting because it had the highest validation AUC. I then calibrated its probabilities and chose the screening cutoff using the validation set. The highest cutoff with validation recall above 96% was selected. The app uses the full value, 0.04732862367687753 (about 4.73%).
 
 The training label combines self-reported diabetes and prediabetes. It does not separate diabetes types or track future diagnoses. The app gives a screening estimate, not a diagnosis.
 
@@ -25,8 +25,8 @@ These results come from the test-set output in the training notebook.
 | Metric | Glucorisk | Published ADA risk-score results |
 | --- | ---: | ---: |
 | AUC | 0.796 | 0.78-0.83 |
-| Positive predictive value (PPV) | 30.3% | About 10% |
-| Sensitivity | 85.1% | 72-79% |
+| Positive predictive value (PPV) | 23.7% | About 10% |
+| Sensitivity | 95.8% | 72-79% |
 
 The ADA figures are from the [review linked in the app](https://mdcalc.scholasticahq.com/article/159088-updated-review-of-the-american-diabetes-association-ada-risk-calculator). They measure undiagnosed diabetes in different populations, while Glucorisk uses self-reported diabetes or prediabetes. This comparison does not establish formal superiority over the ADA tool.
 

@@ -1,13 +1,13 @@
 // Calibration values fitted on the validation set.
-export const CALIBRATION_A = -4.842513;
-export const CALIBRATION_B = 3.995174;
+export const CALIBRATION_A = -4.842512688506816;
+export const CALIBRATION_B = 3.9951738125617853;
 
 export function calibrateProbability(rawProbability) {
   return 1 / (1 + Math.exp(CALIBRATION_A * rawProbability + CALIBRATION_B));
 }
 
-// Cutoff selected on the validation set for at least 30% PPV.
-export const RECOMMENDED_THRESHOLD = 0.115;
+// Highest validation cutoff with recall above 96%.
+export const RECOMMENDED_THRESHOLD = 0.04732862367687753;
 
 export const FEATURE_LABELS = {
   GENHLTH: "your general health",

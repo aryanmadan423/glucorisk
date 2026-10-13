@@ -36,7 +36,7 @@ test('feature coding matches the training notebook', () => {
 });
 
 test('calibration matches the saved model checks', () => {
-  assert.ok(Math.abs(c.calibrateProbability(0.03680086135864258) - 0.02152110049) < 1e-8);
-  assert.ok(Math.abs(c.calibrateProbability(0.9118542671203613) - 0.60360100927) < 1e-8);
-  assert.equal(c.RECOMMENDED_THRESHOLD, 0.115);
+  assert.ok(Math.abs(c.calibrateProbability(0.03680086135864258) - 0.021521104196266926) < 1e-8);
+  assert.ok(Math.abs(c.calibrateProbability(0.9118542671203613) - 0.60360098616256) < 1e-8);
+  assert.equal(c.RECOMMENDED_THRESHOLD, 0.04732862367687753);
 });

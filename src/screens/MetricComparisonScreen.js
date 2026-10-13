@@ -6,8 +6,8 @@ const SOURCE_URL = "https://mdcalc.scholasticahq.com/article/159088-updated-revi
 // Glucorisk test results and the ADA figures from the linked review.
 const ROWS = [
     { metric: "AUC", glucorisk: "0.796", ada: "0.78-0.83" },
-    { metric: "Precision (PPV)", glucorisk: "30.3%", ada: "~10%" },
-    { metric: "Recall (Sensitivity)", glucorisk: "85.1%", ada: "72-79%" },
+    { metric: "Precision (PPV)", glucorisk: "23.7%", ada: "~10%" },
+    { metric: "Recall (Sensitivity)", glucorisk: "95.8%", ada: "72-79%" },
 ];
 
 export default function MetricComparisonScreen() {
