@@ -6,7 +6,7 @@ The goal is to give people a simple way to check their risk factors and find use
 
 ## Using the app
 
-Answer 13 questions about your health, age, height, weight, activity, and medical history. The result displays a binary prediction ("Diabetes testing recommended" or "Below screening cutoff") as well as a calibrated risk score along with its ratio to the cutoff. The app also provides recommendations based on your answers. You can share your result and open links to prevention programs.
+Answer 13 questions about your health, age, height, weight, activity, and medical history. The result displays a binary prediction ("Diabetes testing recommended" or "Below screening cutoff") and a calibrated risk score. The app also provides recommendations based on your answers. You can share your result and open links to prevention programs.
 
 Height and weight are combined into BMI, giving the model 12 inputs. The recommendations use rules based on your answers; they are separate from the model's prediction.
 
