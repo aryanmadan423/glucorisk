@@ -6,15 +6,13 @@ The goal is to give people a simple way to check their risk factors and find use
 
 ## Using the app
 
-Answer 13 questions about your health, age, height, weight, activity, and medical history. The main result says "Diabetes testing recommended" or "Below screening cutoff." A smaller calibrated risk score appears below it, along with its ratio to the cutoff. The app also provides recommendations based on your answers. You can also share your result or open links to prevention programs.
-
-A value of 1.3× means the score is 30% above the screening cutoff, not 30% greater risk than another person. The cutoff is kept low to help miss fewer possible cases, so a low percentage can still lead to a testing recommendation.
+Answer 13 questions about your health, age, height, weight, activity, and medical history. The result displays a binary prediction ("Diabetes testing recommended" or "Below screening cutoff") as well as a calibrated risk score along with its ratio to the cutoff. The app also provides recommendations based on your answers. You can share your result and open links to prevention programs.
 
 Height and weight are combined into BMI, giving the model 12 inputs. The recommendations use rules based on your answers; they are separate from the model's prediction.
 
 ## The model
 
-I trained the model in Python using the [2023 CDC BRFSS survey](https://www.cdc.gov/brfss/annual_data/annual_2023.html). After cleaning, there were 324,787 responses. I split them into 259,829 for training, 32,479 for validation, and 32,479 for testing, using seed 42.
+I trained the model in Python using the [2023 CDC BRFSS survey](https://www.cdc.gov/brfss/annual_data/annual_2023.html). After cleaning, there were 324,787 responses. I split them into 259,829 for training, 32,479 for validation, and 32,479 for testing.
 
 I compared ten classifiers and selected gradient boosting because it had the highest validation AUC. I then calibrated its probabilities and chose the screening cutoff using the validation set. The highest cutoff with validation recall above 96% was selected. The app uses the full value, 0.04732862367687753 (about 4.73%).
 
@@ -22,7 +20,7 @@ The training label combines self-reported diabetes and prediabetes. It does not 
 
 ## Performance
 
-These results come from the test-set output in the training notebook.
+These results come from the test-set output in the training notebook. Metrics from the official American Diabetes Association (ADA) diabetes risk calculator are also shown in the table.
 
 | Metric | Glucorisk | Published ADA risk-score results |
 | --- | ---: | ---: |
@@ -30,7 +28,7 @@ These results come from the test-set output in the training notebook.
 | Positive predictive value (PPV) | 23.7% | About 10% |
 | Sensitivity | 95.8% | 72-79% |
 
-The ADA figures are from the [review linked in the app](https://mdcalc.scholasticahq.com/article/159088-updated-review-of-the-american-diabetes-association-ada-risk-calculator). They measure undiagnosed diabetes in different populations, while Glucorisk uses self-reported diabetes or prediabetes. This comparison does not establish formal superiority over the ADA tool.
+The ADA figures are from the [review linked in the app](https://mdcalc.scholasticahq.com/article/159088-updated-review-of-the-american-diabetes-association-ada-risk-calculator). They measure undiagnosed diabetes in different populations, while Glucorisk uses self-reported diabetes or prediabetes. This comparison places Glucorisk’s test results in context alongside an established screening tool, but does not establish superiority over the ADA tool.
 
 ## Privacy
 
